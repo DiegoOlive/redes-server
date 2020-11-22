@@ -34,11 +34,11 @@ export class createMembros1606052249172 implements MigrationInterface {
                 },
                 {
                     name: 'senha',
-                    type: 'password'                        
+                    type: 'varchar'                        
                 },
                 {
                     name: 'confSenha',
-                    type: 'password'                        
+                    type: 'varchar'                        
                 },
                 {
                     name: 'course',
