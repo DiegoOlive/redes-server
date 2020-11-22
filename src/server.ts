@@ -1,4 +1,5 @@
 import express from 'express';
+import './data/connection';
 
 var server = express();
 server.use(express.json());
