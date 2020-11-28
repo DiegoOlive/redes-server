@@ -9,7 +9,8 @@
 /*habilit. 
 "experimentalDecorators": true,
 "emitDecoratorMetadata": true,  */
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import Area from "./areas";
 
 @Entity('membros')
 //interliga ao banco
@@ -35,7 +36,13 @@ class Membros{
     @Column()
     nivel: string;
     @Column()
-    motivation: string;   
+    motivation: string;  
+    
+    @OneToMany(()=>Area, area => area.membros, {
+        cascade: ['insert', 'update']
+    })
+    @JoinColumn({name:'membro_id'})
+    areas: Area[];
 }
 
 export default Membros;

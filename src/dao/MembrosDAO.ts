@@ -4,6 +4,7 @@ objetos representam os elementos do banco de dados*/
 import { getRepository } from 'typeorm';
 import Membros from '../models/membros';
 
+
 class MembrosDAO{
     async create(membros: Membros): Promise<Membros> {
         const repository = getRepository(Membros);
@@ -14,7 +15,9 @@ class MembrosDAO{
 
     async read(): Promise<Membros[]> {
         const repository = getRepository(Membros);
-        const membros = await repository.find();
+        const membros = await repository.find({
+            relations: ['areas']
+        });
         return membros;
     }
 }
