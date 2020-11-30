@@ -55,7 +55,21 @@ export class createMembros1606052249172 implements MigrationInterface {
                 {
                     name: 'motivation',
                     type: 'varchar'                        
+                },
+                {
+                    name: 'image_id',
+                    type: 'integer'                        
                 }               
+            ],
+            foreignKeys: [
+                {
+                name:'image_id',
+                columnNames:['image_id'], //como array
+                referencedTableName: 'images',
+                referencedColumnNames: ['id'],
+                onUpdate: 'CASCADE',
+                onDelete: 'CASCADE' //membro deletado foto
+                }                    
             ]
         }));
     }

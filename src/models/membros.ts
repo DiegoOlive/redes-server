@@ -9,8 +9,9 @@
 /*habilit. 
 "experimentalDecorators": true,
 "emitDecoratorMetadata": true,  */
-import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import Area from "./areas";
+import Image from "./image";
 
 @Entity('membros')
 //interliga ao banco
@@ -42,7 +43,13 @@ class Membros{
         cascade: ['insert', 'update']
     })
     @JoinColumn({name:'membro_id'})
-    areas: Area[];
+    areas: Area[]; //nome que sera passado DAO
+
+    @OneToOne(() => Image, {
+        cascade: ['insert', 'update'] 
+    })
+    @JoinColumn({name:'image_id'})
+    photo: Image //nome que sera passado DAO
 }
 
 export default Membros;
