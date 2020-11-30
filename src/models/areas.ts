@@ -6,7 +6,7 @@ import Membros from "./membros";
 
 class Area{
     //referencia a chave primaria
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn('increment')
     id:number;
     @Column()
     name: string;
