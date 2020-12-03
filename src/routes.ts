@@ -11,6 +11,6 @@ routes.route('/membros')
 .post(membrosController.create);
 
 routes.route('/membros/:id')
-.put(membrosController.update);
-
+.put(membrosController.update)
+.delete(membrosController.delete);
 export default routes;

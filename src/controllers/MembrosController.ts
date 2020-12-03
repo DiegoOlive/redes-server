@@ -131,6 +131,11 @@ class MembrosController{
         const updated = await this.readById(req, res);
         res.json(updated);
     }
+    delete  = async (req:Request, res:Response) => {
+        const {id} = req.params;
+        await this.membrosDAO.remove(Number(id));
+        res.json(`Membro de id: ${id} foi removido!`);
+    }
 }
 
 export default MembrosController;

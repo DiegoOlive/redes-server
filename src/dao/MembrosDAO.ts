@@ -30,6 +30,11 @@ class MembrosDAO{
         });
         return membros;
     }
+
+    async remove(id:number) {
+        const repository = getRepository(Membros);
+        const removed = await repository.delete(id);
+    }
 }
 
 export default MembrosDAO;
