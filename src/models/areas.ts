@@ -1,7 +1,7 @@
 import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
 import Membros from "./membros";
 
-//a quem ira se refenciar
+//ha quem ira se refenciar
 @Entity("areas")
 
 class Area{
@@ -12,7 +12,6 @@ class Area{
     name: string;
 
 //relacionamentos
-
     @ManyToOne(()=>Membros, membros => membros.areas)
     @JoinColumn({name:'membro_id'})
     membros:Membros

@@ -14,8 +14,6 @@ export class createMembros1606052249172 implements MigrationInterface {
                  isGenerated: true,
                  generationStrategy: 'increment'   
                 },
-                /*name, lastname, email, phone, senha, confSenha,
-                 course,degree(Mestrado),nivel(Avançado),motivation,areas*/
                 {
                     name: 'name',
                     type: 'varchar'                        
@@ -55,12 +53,12 @@ export class createMembros1606052249172 implements MigrationInterface {
                 {
                     name: 'motivation',
                     type: 'varchar'                        
-                },
+                }/*,
                 {
                     name: 'image_id',
                     type: 'integer'                        
-                }               
-            ],
+                }*/               
+            ]/*, 
             foreignKeys: [
                 {
                 name:'image_id',
@@ -70,12 +68,11 @@ export class createMembros1606052249172 implements MigrationInterface {
                 onUpdate: 'CASCADE',
                 onDelete: 'CASCADE' //membro deletado foto
                 }                    
-            ]
+            ]*/
         }));
     }
 /*areas e publicações(se tivesse) - não sao infos unicas - relacionamentos entre tabelas */
     public async down(queryRunner: QueryRunner): Promise<void> {
         queryRunner.dropTable('membros');
     }
-
 }

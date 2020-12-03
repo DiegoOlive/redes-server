@@ -18,7 +18,7 @@ class MembrosDAO{
     async read(): Promise<Membros[]> {
         const repository = getRepository(Membros);
         const membros = await repository.find({
-            relations: ["areas", "photo"]
+            relations: ["areas"]
         });
         return membros;
     }
@@ -26,7 +26,7 @@ class MembrosDAO{
     async readById(id:number) {
         const repository = getRepository(Membros);
         const membros = await repository.findOneOrFail(id, {
-            relations: ['areas', 'photo']
+            relations: ['areas']
         });
         return membros;
     }

@@ -2,7 +2,6 @@ import {Request, Response} from 'express';
 import MembrosDAO from '../dao/MembrosDAO';
 import AreaDAO from '../dao/AreaDAO';
 import Area from '../models/areas';
-import Image from '../models/image';
 import Membros from '../models/membros';
 
 
@@ -25,8 +24,8 @@ class MembrosController{
             degree,
             nivel,
             motivation,
-            areas,
-            photo //quando criar um elemento passar esse photo
+            areas
+            //photo //quando criar um elemento passar esse photo
         } = req.body;
 
         //preciso converter de string para um obj area
@@ -34,7 +33,8 @@ class MembrosController{
             return {name: area}
         });
 
-        const image: Image = {image: photo}
+        //Para as imagens
+        //const image: Image = {image: photo}
 
         const data: Membros = {
             name,
@@ -47,8 +47,8 @@ class MembrosController{
             degree,
             nivel,
             motivation,
-            areas: areasObjs,
-            photo: image        
+            areas: areasObjs
+            //photo: image        
         }
         const membros = await this.membrosDAO.create(data); 
         return res.status(201).json(membros); //codigo de estado para criar
@@ -93,8 +93,8 @@ class MembrosController{
             degree,
             nivel,
             motivation,
-            areas,
-            photo 
+            areas
+            //photo 
         } = req.body;
 
         const providedDate = {
@@ -107,8 +107,8 @@ class MembrosController{
             course,
             degree,
             nivel,
-            motivation,
-            photo 
+            motivation
+            //photo 
         }
         
         let data = {}; //Objeto vazio - filtrar as definidas
