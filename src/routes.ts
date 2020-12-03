@@ -10,4 +10,7 @@ routes.route('/membros')
 .get(membrosController.read)
 .post(membrosController.create);
 
+routes.route('/membros/:id')
+.put(membrosController.update);
+
 export default routes;

@@ -1,7 +1,9 @@
 /*estabeler a relação com os elementos
 objetos representam os elementos do banco de dados*/
 //metodo create
+import {response} from 'express';
 import { getRepository } from 'typeorm';
+import Area from '../models/areas';
 import Membros from '../models/membros';
 
 
@@ -17,6 +19,14 @@ class MembrosDAO{
         const repository = getRepository(Membros);
         const membros = await repository.find({
             relations: ["areas", "photo"]
+        });
+        return membros;
+    }
+
+    async readById(id:number) {
+        const repository = getRepository(Membros);
+        const membros = await repository.findOneOrFail(id, {
+            relations: ['areas', 'photo']
         });
         return membros;
     }

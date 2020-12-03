@@ -1,13 +1,16 @@
 import {Request, Response} from 'express';
 import MembrosDAO from '../dao/MembrosDAO';
+import AreaDAO from '../dao/AreaDAO';
 import Area from '../models/areas';
 import Image from '../models/image';
 import Membros from '../models/membros';
+
 
 //MVC - realiza a interação das visualizações
 //interação com o modelo - objeto
 class MembrosController{
     membrosDAO: MembrosDAO = new MembrosDAO ();
+    areaDAO: AreaDAO = new AreaDAO ();
     //conexão com o banco de dados
     
     create = async (req:Request, res:Response) => {
@@ -54,6 +57,79 @@ class MembrosController{
     read = async (req:Request, res:Response) => {
         const membros = await this.membrosDAO.read();
         return res.json(membros);
+    }
+
+    readById = async (req:Request, res:Response) => {
+        const {id} = req.params;
+        const membros = await this.membrosDAO.readById(Number(id));
+        return membros;
+    }
+    //cada area fornecida seta membro e chama create area
+    async createOrUpdateArea(areas:Area[], membros: Membros){
+        for(let area of areas){
+            area.membros = membros;
+            await this.areaDAO.createArea(area);
+        };
+    }
+    async deleteAreas(membros: Membros, areas: Area[]){
+        const membrosAreas = membros.areas;
+        const toRemove = membrosAreas.filter((area) =>//area que não estiver, remove
+            !areas.some(areaObj => areaObj.id && areaObj.id == area.id)
+        );
+        for (let area of toRemove){
+            await this.areaDAO.deleteArea(area);
+        }
+    } 
+
+    update = async(req:Request, res:Response) => {
+        const {
+            name,
+            lastname,
+            email,
+            phone,
+            senha,
+            confSenha,
+            course,
+            degree,
+            nivel,
+            motivation,
+            areas,
+            photo 
+        } = req.body;
+
+        const providedDate = {
+            name,
+            lastname,
+            email,
+            phone,
+            senha,
+            confSenha,
+            course,
+            degree,
+            nivel,
+            motivation,
+            photo 
+        }
+        
+        let data = {}; //Objeto vazio - filtrar as definidas
+        Object.entries(providedDate).forEach((v) =>{ //analisar cada propriedade
+            const [key, value] = v;
+            if (value) {
+                data = {...data, [key]: value}
+            }
+        }); 
+        let membros = await this.readById(req, res);
+        membros = {...membros, ...data}; //realizando a atualização
+        await this.membrosDAO.create(membros);
+
+        //para areas
+        if(areas){
+            const areasProvided: Area[] = areas; // a partir das areas passadas
+            await this.createOrUpdateArea(areasProvided, membros);
+            await this.deleteAreas(membros, areasProvided);
+        }
+        const updated = await this.readById(req, res);
+        res.json(updated);
     }
 }
 
