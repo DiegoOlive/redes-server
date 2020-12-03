@@ -1,4 +1,5 @@
 import {Request, Response} from 'express';
+import { getRepository } from 'typeorm';
 import MembrosDAO from '../dao/MembrosDAO';
 import AreaDAO from '../dao/AreaDAO';
 import Area from '../models/areas';
@@ -28,6 +29,15 @@ class MembrosController{
             //photo //quando criar um elemento passar esse photo
         } = req.body;
 
+        if (req.body.senha != req.body.confSenha){
+            return res.status(400).json({ error: 'As senhas não conferem, tente novamente' });
+        }
+        const repository = getRepository(Membros);
+        const emailExists = await repository.findOne({ where: { email: req.body.email }});
+
+        if(emailExists){
+            return res.status(400).json({ error: 'Email Existente' });
+        }
         //preciso converter de string para um obj area
         const areasObjs:Area[] = areas.map((area:string) => {
             return {name: area}
@@ -50,6 +60,7 @@ class MembrosController{
             areas: areasObjs
             //photo: image        
         }
+
         const membros = await this.membrosDAO.create(data); 
         return res.status(201).json(membros); //codigo de estado para criar
     }
@@ -87,8 +98,6 @@ class MembrosController{
             lastname,
             email,
             phone,
-            senha,
-            confSenha,
             course,
             degree,
             nivel,
@@ -102,8 +111,6 @@ class MembrosController{
             lastname,
             email,
             phone,
-            senha,
-            confSenha,
             course,
             degree,
             nivel,
