@@ -1,9 +1,11 @@
 import express from 'express';
 import routes from './routes';
+import cors from 'cors';
 import './data/connection';
 
 var server = express();
 server.use(express.json());
+server.use(cors());
 server.use(routes);
 
 server.get("/", (req, res) => {
