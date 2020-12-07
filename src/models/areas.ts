@@ -7,14 +7,14 @@ import Membros from "./membros";
 class Area{
     //referencia a chave primaria
     @PrimaryGeneratedColumn('increment')
-    id:number;
+    id?:number;
     @Column()
     name: string;
 
 //relacionamentos
     @ManyToOne(()=>Membros, membros => membros.areas)
     @JoinColumn({name:'membro_id'})
-    membros:Membros
+    membros?:Membros
 }
 
 export default Area;
