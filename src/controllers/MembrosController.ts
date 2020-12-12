@@ -1,6 +1,5 @@
 import {Request, Response} from 'express';
 import { getRepository } from 'typeorm';
-import jwt from 'jsonwebtoken';
 import MembrosDAO from '../dao/MembrosDAO';
 import AreaDAO from '../dao/AreaDAO';
 import Area from '../models/areas';
@@ -39,14 +38,16 @@ class MembrosController{
         if(emailExists){
             return res.status(400).json({ error: 'Email Existente' });
         }
+      
+        let areasObjs:Area[] = [];
+        if(areas){        
         //preciso converter de string para um obj area
-        const areasObjs:Area[] = areas.map((area:string) => {
-            return {name: area}
+            const areasArray:string[] = Array.from(areas);
+            areasObjs = areasArray.map((area:string) => {
+                return {name: area}
         });
-
-        //Para as imagens
-        //const image: Image = {image: photo}
-
+        }
+      
         const data: Membros = {
             name,
             lastname,
