@@ -28,6 +28,11 @@ class MembrosController{
             //photo //quando criar um elemento passar esse photo
         } = req.body;
 
+        if(req.body.email == "" || req.body.name == "" || req.body.lastname == "" || 
+            req.body.senha == "" || req.body.confSenha == "") {
+                return res.status(400).json({ error: 'Campos nulos não são aceitos!' });
+            }
+
         if (req.body.senha != req.body.confSenha){
             return res.status(400).json({ error: 'As senhas não conferem, tente novamente' });
         }
@@ -121,6 +126,17 @@ class MembrosController{
             nivel,
             motivation
             //photo 
+        }
+        
+        if (req.body.senha != req.body.confSenha){
+            return res.status(400).json({ error: 'As senhas não conferem, tente novamente' });
+        }
+
+        const repository = getRepository(Membros);
+        const emailExists = await repository.findOne({ where: { email: req.body.email }});
+
+        if(emailExists){
+            return res.status(400).json({ error: 'Email existente' });
         }
         
         let data = {}; //Objeto vazio - filtrar as definidas
