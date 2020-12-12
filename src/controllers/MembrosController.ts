@@ -5,7 +5,6 @@ import AreaDAO from '../dao/AreaDAO';
 import Area from '../models/areas';
 import Membros from '../models/membros';
 
-
 //MVC - realiza a interação das visualizações
 //interação com o modelo - objeto
 class MembrosController{
