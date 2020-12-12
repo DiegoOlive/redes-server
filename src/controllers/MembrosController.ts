@@ -1,5 +1,6 @@
 import {Request, Response} from 'express';
 import { getRepository } from 'typeorm';
+import jwt from 'jsonwebtoken';
 import MembrosDAO from '../dao/MembrosDAO';
 import AreaDAO from '../dao/AreaDAO';
 import Area from '../models/areas';
@@ -38,15 +39,10 @@ class MembrosController{
         if(emailExists){
             return res.status(400).json({ error: 'Email Existente' });
         }
-        
-        let areasObjs:Area[] = [];
-        if(areas){        
         //preciso converter de string para um obj area
-            const areasArray:string[] = Array.from(areas);
-            areasObjs = areasArray.map((area:string) => {
-                return {name: area}
+        const areasObjs:Area[] = areas.map((area:string) => {
+            return {name: area}
         });
-        }   
 
         //Para as imagens
         //const image: Image = {image: photo}
@@ -103,6 +99,8 @@ class MembrosController{
             lastname,
             email,
             phone,
+            senha,
+            confSenha,
             course,
             degree,
             nivel,
@@ -111,11 +109,13 @@ class MembrosController{
             //photo 
         } = req.body;
 
-        const providedData = {
+        const providedDate = {
             name,
             lastname,
             email,
             phone,
+            senha,
+            confSenha,
             course,
             degree,
             nivel,
@@ -124,7 +124,7 @@ class MembrosController{
         }
         
         let data = {}; //Objeto vazio - filtrar as definidas
-        Object.entries(providedData).forEach((v) =>{ //analisar cada propriedade
+        Object.entries(providedDate).forEach((v) =>{ //analisar cada propriedade
             const [key, value] = v;
             if (value) {
                 data = {...data, [key]: value}
@@ -143,6 +143,7 @@ class MembrosController{
         const updated = await this.readById(req, res);
         res.json(updated);
     }
+
     delete  = async (req:Request, res:Response) => {
         const {id} = req.params;
         await this.membrosDAO.remove(Number(id));

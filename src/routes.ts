@@ -1,5 +1,8 @@
 import { Router } from "express";
+
+import authMiddleware from './middlewares/authMiddleware';
 import MembrosController from './controllers/MembrosController';
+import AuthController from './controllers/AuthController';
 
 //Caso quisesse ter imagens
 //import multer from 'multer';
@@ -7,6 +10,7 @@ import MembrosController from './controllers/MembrosController';
 //import {uuid} from 'uuidv4';
 
 const membrosController: MembrosController = new MembrosController(); 
+const authcontroller: AuthController = new AuthController();
 
 //const config = multer({
 //    storage: multer.diskStorage({
@@ -20,10 +24,14 @@ const membrosController: MembrosController = new MembrosController();
 const routes = Router();
 
 routes.route('/membros')
-.get(membrosController.read)
+.get(authMiddleware,membrosController.read)
 .post(membrosController.create);
 
 routes.route('/membros/:id')
-.put(membrosController.update)
-.delete(membrosController.delete);
+.put(authMiddleware,membrosController.update)
+.delete(authMiddleware,membrosController.delete);
+
+routes.route('/auth')
+.post(authcontroller.authenticate);
+
 export default routes;

@@ -4,7 +4,7 @@
     "main": "index.js",
     "license": "MIT",
     "scripts": {
-        "start": "ts-node-dev --transpile-only --ignore-watch node_modules src/server.ts",
+        "start": "ts-node-dev --files --transpile-only --ignore-watch node_modules src/server.ts --port 3333",
         "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js"
     },
     "dependencies": {
@@ -13,6 +13,7 @@
         "@types/typescript": "^2.0.0",
         "cors": "^2.8.5",
         "express": "^4.17.1",
+        "jsonwebtoken": "^8.5.1",
         "multer": "^1.4.2",
         "sqlite3": "^5.0.0",
         "ts-node-dev": "^1.0.0",
@@ -21,6 +22,7 @@
     },
     "devDependencies": {
         "@types/cors": "^2.8.8",
+        "@types/jsonwebtoken": "^8.5.0",
         "typescript": "^4.1.2"
     }
 }
